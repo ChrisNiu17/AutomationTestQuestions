@@ -1,0 +1,392 @@
+{
+	"info": {
+		"_postman_id": "85701bb4-e4e8-4101-9a08-92b129f17485",
+		"name": "dummyjson API Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20718146"
+	},
+	"item": [
+		{
+			"name": "Get all products",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is json\", function () {",
+							"    pm.response.to.be.header(\"Content-Type\", \"application/json; charset=utf-8\");",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 1s\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+							"});",
+							"",
+							"pm.test(\"Number of products limit verification\", function() {",
+							"        const responseBody = pm.response.json();",
+							"        pm.expect(responseBody['products'].length).to.eql(responseBody['limit']);",
+							"",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://dummyjson.com/products",
+					"protocol": "https",
+					"host": [
+						"dummyjson",
+						"com"
+					],
+					"path": [
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get single product",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is json\", function () {",
+							"    pm.response.to.be.header(\"Content-Type\", \"application/json; charset=utf-8\");",
+							"});",
+							"",
+							"var schema = {",
+							"    \"type\": \"object\",",
+							"    \"properties\": {",
+							"        \"id\":{",
+							"            \"type\": \"number\",",
+							"        },",
+							"        \"title\":{",
+							"            \"type\": \"string\",",
+							"        },",
+							"        \"description\": {",
+							"            \"type\": \"string\",",
+							"        },",
+							"        \"price\":{",
+							"            \"type\": \"number\",",
+							"        }",
+							"    },",
+							"    \"required\": [",
+							"        \"id\", \"title\", \"price\"",
+							"    ]",
+							"};",
+							"",
+							"pm.test('Schema is valid', function () {",
+							"    pm.response.to.have.jsonSchema(schema);",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 1s\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://dummyjson.com/products/1",
+					"protocol": "https",
+					"host": [
+						"dummyjson",
+						"com"
+					],
+					"path": [
+						"products",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search products",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is json\", function () {",
+							"    pm.response.to.be.header(\"Content-Type\", \"application/json; charset=utf-8\");",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 1s\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://dummyjson.com/products?limit=10&skip=10&select=title,price",
+					"protocol": "https",
+					"host": [
+						"dummyjson",
+						"com"
+					],
+					"path": [
+						"products"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "10"
+						},
+						{
+							"key": "skip",
+							"value": "10"
+						},
+						{
+							"key": "select",
+							"value": "title,price"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get products of a category",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is json\", function () {",
+							"    pm.response.to.be.header(\"Content-Type\", \"application/json; charset=utf-8\");",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 1s\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+							"});",
+							"",
+							"pm.test(\"Number of products in category matches the total value\", function() {",
+							"        const responseBody = pm.response.json();",
+							"        pm.expect(responseBody['products'].length).to.eql(responseBody['total']);",
+							"",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://dummyjson.com/products/category/smartphones",
+					"protocol": "https",
+					"host": [
+						"dummyjson",
+						"com"
+					],
+					"path": [
+						"products",
+						"category",
+						"smartphones"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add a product",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201); //For some reason the API only returned 200. It should be the API issue instead of test script issue.",
+							"});",
+							"",
+							"pm.test(\"Content-Type is json\", function () {",
+							"    pm.response.to.be.header(\"Content-Type\", \"application/json; charset=utf-8\");",
+							"});",
+							"",
+							"var schema = {",
+							"    \"type\": \"object\",",
+							"    \"properties\": {",
+							"        \"id\":{",
+							"            \"type\": \"number\",",
+							"        },",
+							"        \"title\":{",
+							"            \"type\": \"string\",",
+							"        }",
+							"    },",
+							"    \"required\": [",
+							"        \"id\",",
+							"    ]",
+							"};",
+							"",
+							"pm.test('Schema is valid', function () {",
+							"    pm.response.to.have.jsonSchema(schema);",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 1s\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"title\":\"BMW Pencil\"}"
+				},
+				"url": {
+					"raw": "https://dummyjson.com/products/add",
+					"protocol": "https",
+					"host": [
+						"dummyjson",
+						"com"
+					],
+					"path": [
+						"products",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update a product",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is json\", function () {",
+							"    pm.response.to.be.header(\"Content-Type\", \"application/json; charset=utf-8\");",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 1s\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"title\": \"iPhone Galaxy +1\"}"
+				},
+				"url": {
+					"raw": "https://dummyjson.com/products/1",
+					"protocol": "https",
+					"host": [
+						"dummyjson",
+						"com"
+					],
+					"path": [
+						"products",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a product",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {",
+							"    pm.response.to.have.status(204); //For some reason the API only returned 200. It should be the API issue instead of test script issue.",
+							"});",
+							"",
+							"pm.test(\"Content-Type is json\", function () {",
+							"    pm.response.to.be.header(\"Content-Type\", \"application/json; charset=utf-8\");",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 1s\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+							"});",
+							"",
+							"pm.test(\"The isDeleted field of the deleted product is true\", function() {",
+							"        const responseBody = pm.response.json();",
+							"        pm.expect(responseBody['isDeleted']).to.eql(true);",
+							"",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://dummyjson.com/products/1",
+					"protocol": "https",
+					"host": [
+						"dummyjson",
+						"com"
+					],
+					"path": [
+						"products",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

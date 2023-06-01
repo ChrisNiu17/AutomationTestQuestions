@@ -1,0 +1,27 @@
+Question:
+
+Scalability is another key issue in large scale cloud applications. Imagine a new, very large
+customer has recently purchased licenses for the application you are responsible for managing
+quality assurance on. This customer is the same size as all of the other customers that currently
+use the system combined. As a result, the application suite is facing performance problems
+across the board, making the platform almost completely unusable. You must act quickly and
+devise a plan to identify the bottlenecks in the application so that the engineering team can
+determine solutions and workarounds to alleviate some of the pressure.
+Discuss your approach to this scenario in as much detail as possible, how would you find the
+“breaking-points” of the application load? What tools do you have in your arsenal to quickly
+engineer a load testing suite? If you can, provide a real world example(s) of this.
+
+==================
+
+Answer:
+
+Capacity planning will be the first step. Because the new customer is almost the same size as all the existing customers, it would bring significant impact to current infrastructure. First analyse all resource needed by existing customers, get event logs from monitoring systems like AWS cloudwatch/cloudtrail, check the peak time for all the customers (i.e. different customers may work in different timezone and using different types of resources), gather information about the expected new customer behaviour patterns (i.e. when to use and how much do they use), combine all these information and decide how much extra resources are needed, then provide extra resources accordingly. This would ensure both new and old customers have accessibility to the service as a temporary solution.
+
+Most of the major cloud service provide provide auto-scaling features to manage the resources. After we add extra resource to support new customers, we will need to enable auto scalling. Utilize features like auto scaling groups, load balancers and EC2 auto scaling to automatically add or remove instances as needed.
+
+Use monitoring and logging tools come with cloud service like Cloudwatch, CloudTrail or X-Ray to check the resource usage pattern, trace request travelling time and details, identify the services caused most delay and used most resources. Then do investigation in these activities to find solution for optimisation. This would be an ongoing process to improve the stability of the service and reduce cost.
+
+2 tools can be used to build up a performance test suite: Jmeter and SOAPUI.
+We can use JMeter to simulate mutiple users sending different combinations of request to the server, receive responses from server and put them into report and analyse.
+If the performance bottleneck is is on the webserver side or it is caused by a specific user feature, Jmeter can be used to quickly record and replay the user scenario.
+SOAPUI is a popular load test tool and suitable for API performance testing. If the application is deployed using microservices or we already know which API is the breaking point. In that case we can immediately find out which service is not responding then we can test the service specifically.
